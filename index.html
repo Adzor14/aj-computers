@@ -14,7 +14,6 @@
             --primary: #3b82f6;
             --accent: #06b6d4;
             --dark: #0f172a;
-            --abb-teal: #00a8b4;
         }
 
         body {
@@ -67,67 +66,28 @@
             transform: scale(1.1) rotate(5deg);
         }
 
-        input, textarea {
-            background: rgba(15, 23, 42, 0.6) !important;
-            border: 1px solid rgba(255, 255, 255, 0.1) !important;
-            color: white !important;
-            transition: all 0.3s ease !important;
-        }
+        .page-section { display: none; }
+        .page-section.active { display: block; }
 
-        input:focus, textarea:focus {
-            background: rgba(15, 23, 42, 0.9) !important;
-            border-color: var(--primary) !important;
-            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15) !important;
-        }
-
-        .custom-checkbox {
-            width: 24px;
-            height: 24px;
-            cursor: pointer;
-            accent-color: var(--primary);
-        }
-
-        .page-section {
-            display: none;
-        }
-
-        .page-section.active {
-            display: block;
-        }
-
-        .nav-btn {
-            position: relative;
-        }
-
-        .nav-btn::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--primary);
-            transition: width 0.3s ease;
-        }
-
-        .nav-btn:hover::after {
-            width: 100%;
-        }
-
-        #golfCanvas {
-            background: #064e3b;
+        canvas {
             border-radius: 24px;
-            cursor: crosshair;
             touch-action: none;
             width: 100%;
             height: 100%;
-            border: 4px solid #065f46;
+        }
+
+        .game-mode-card {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .game-mode-card:hover {
+            border-color: #3b82f6;
+            background: rgba(59, 130, 246, 0.1);
         }
 
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #0f172a; }
         ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: #334155; }
     </style>
 </head>
 <body class="bg-slate-950 text-slate-200">
@@ -143,19 +103,16 @@
                     <span class="text-2xl font-black tracking-tighter text-white">AJ<span class="text-blue-500">COMPUTERS</span></span>
                 </div>
                 <div class="hidden md:flex items-center space-x-10">
-                    <button onclick="showPage('home')" class="nav-btn text-sm font-semibold hover:text-white transition">Home</button>
-                    <button onclick="scrollToElement('services')" class="nav-btn text-sm font-semibold hover:text-white transition">Services</button>
-                    <button onclick="showPage('game')" class="nav-btn text-sm font-semibold hover:text-white transition flex items-center gap-2">
-                        <i class="fas fa-golf-ball text-blue-400"></i> Game
+                    <button onclick="showPage('home')" class="text-sm font-semibold hover:text-white transition">Home</button>
+                    <button onclick="scrollToElement('services')" class="text-sm font-semibold hover:text-white transition">Services</button>
+                    <button onclick="showPage('games')" class="text-sm font-semibold hover:text-white transition flex items-center gap-2">
+                        <i class="fas fa-gamepad text-blue-400"></i> Games
                     </button>
                     <button onclick="showPage('nbn')" class="px-5 py-2.5 bg-blue-600/10 hover:bg-blue-600/20 text-blue-400 rounded-full text-sm font-bold border border-blue-500/20 transition-all">
                         <i class="fas fa-wifi mr-2"></i>NBN Discount
                     </button>
-                    <button onclick="scrollToElement('contact')" class="nav-btn text-sm font-semibold hover:text-white transition">Contact</button>
+                    <button onclick="scrollToElement('contact')" class="text-sm font-semibold hover:text-white transition">Contact</button>
                 </div>
-                <button class="md:hidden text-2xl text-slate-400" onclick="toggleMenu()">
-                    <i class="fas fa-bars"></i>
-                </button>
             </div>
         </div>
     </nav>
@@ -163,77 +120,40 @@
     <main>
         <!-- HOME PAGE -->
         <div id="home-page" class="page-section active">
-            <!-- Hero Section -->
             <header class="relative pt-40 pb-32 overflow-hidden hero-gradient">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-                    <div class="animate__animated animate__fadeInDown">
-                        <span class="inline-flex items-center py-1.5 px-4 rounded-full bg-blue-500/10 text-blue-400 text-xs font-bold mb-6 border border-blue-500/20 tracking-widest uppercase">
-                           <span class="w-2 h-2 bg-blue-500 rounded-full mr-2 animate-pulse"></span> Your Local Tech Experts
-                        </span>
-                    </div>
                     <h1 class="text-6xl md:text-8xl font-extrabold mb-8 tracking-tighter text-white leading-[0.9]">
                         Tech issues <br><span class="text-gradient">solved simply.</span>
                     </h1>
-                    <p class="text-slate-400 text-lg md:text-xl max-w-2xl mx-auto mb-12 font-medium leading-relaxed">
-                        Precision computer repairs, custom workstation builds, and cutting-edge business solutions delivered with a personal touch.
-                    </p>
                     <div class="flex flex-col sm:flex-row justify-center gap-5 mb-16">
-                        <button onclick="scrollToElement('services')" class="px-10 py-5 bg-blue-600 hover:bg-blue-500 text-white rounded-2xl font-bold transition-all shadow-xl shadow-blue-600/25 flex items-center justify-center gap-2">
-                            Explore Services <i class="fas fa-arrow-right text-xs"></i>
+                        <button onclick="scrollToElement('services')" class="px-10 py-5 bg-blue-600 hover:bg-blue-500 text-white rounded-2xl font-bold transition-all shadow-xl shadow-blue-600/25">
+                            Explore Services
                         </button>
-                        <button onclick="showPage('game')" class="px-10 py-5 bg-slate-900 hover:bg-slate-800 text-white rounded-2xl font-bold transition-all border border-slate-800 flex items-center justify-center gap-2">
-                            <i class="fas fa-gamepad text-blue-400"></i> Play AJ Golf
+                        <button onclick="showPage('games')" class="px-10 py-5 bg-slate-900 hover:bg-slate-800 text-white rounded-2xl font-bold transition-all border border-slate-800">
+                            Play Games
                         </button>
-                    </div>
-
-                    <!-- Highlighted Pick Up Service -->
-                    <div class="max-w-3xl mx-auto animate__animated animate__fadeInUp">
-                        <div class="glass-card p-8 rounded-[2.5rem] border-blue-500/30 bg-blue-500/5 flex flex-col md:flex-row items-center gap-8 text-left">
-                            <div class="w-16 h-16 bg-blue-500/20 rounded-2xl flex items-center justify-center text-blue-400 shrink-0">
-                                <i class="fas fa-car-side text-3xl"></i>
-                            </div>
-                            <div>
-                                <h3 class="text-2xl font-bold text-white mb-2 flex items-center gap-3">
-                                    Pick Up & Drop Off 
-                                    <span class="text-[10px] bg-blue-500 text-white px-2 py-0.5 rounded-full uppercase tracking-tighter">New Service</span>
-                                </h3>
-                                <p class="text-slate-400 leading-relaxed">
-                                    Too busy to visit? We've got you covered. We offer a secure, professional concierge service where we pick up your device, repair it in our expert lab, and return it to your door, fully tested and ready to use.
-                                </p>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </header>
-
-            <!-- Services Grid -->
+            
             <section id="services" class="py-32 bg-slate-900/30">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div class="max-w-2xl mb-20">
-                        <h2 class="text-4xl md:text-5xl font-bold mb-6 text-white tracking-tight">Expert support for every digital need.</h2>
-                        <p class="text-slate-400 text-lg">We don't just fix computers; we optimize your digital lifestyle.</p>
-                    </div>
-
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                         <div class="glass-card p-8 rounded-[2rem]">
                             <div class="service-icon-wrapper text-blue-500"><i class="fas fa-database text-2xl"></i></div>
                             <h3 class="text-xl font-bold mb-4 text-white">Data Recovery</h3>
-                            <p class="text-slate-400 text-sm">Recover lost files, precious photos, and critical documents from failed drives.</p>
                         </div>
                         <div class="glass-card p-8 rounded-[2rem]">
                             <div class="service-icon-wrapper text-red-500"><i class="fas fa-shield-virus text-2xl"></i></div>
                             <h3 class="text-xl font-bold mb-4 text-white">Virus Removal</h3>
-                            <p class="text-slate-400 text-sm">Security hardening and malware extraction.</p>
                         </div>
                         <div class="glass-card p-8 rounded-[2rem]">
                             <div class="service-icon-wrapper text-yellow-500"><i class="fas fa-bolt text-2xl"></i></div>
                             <h3 class="text-xl font-bold mb-4 text-white">Speed Upgrades</h3>
-                            <p class="text-slate-400 text-sm">SSD and RAM installations for peak performance.</p>
                         </div>
                         <div class="glass-card p-8 rounded-[2rem]">
                             <div class="service-icon-wrapper text-green-500"><i class="fas fa-broom text-2xl"></i></div>
                             <h3 class="text-xl font-bold mb-4 text-white">Tune & Clean</h3>
-                            <p class="text-slate-400 text-sm">System optimization and physical cleaning.</p>
                         </div>
                     </div>
                 </div>
@@ -243,173 +163,134 @@
         <!-- NBN PAGE -->
         <div id="nbn-page" class="page-section pt-40 pb-32 hero-gradient min-h-screen">
             <div class="max-w-4xl mx-auto px-4 text-center">
-                <button onclick="showPage('home')" class="text-slate-400 mb-12 hover:text-white flex items-center gap-2 mx-auto transition-colors"><i class="fas fa-arrow-left"></i> Back to Home</button>
-                <div class="glass-card p-12 md:p-20 rounded-[4rem]">
-                    <div class="flex justify-center mb-8">
-                        <div class="w-16 h-16 bg-[#00a8b4] rounded-2xl flex items-center justify-center shadow-lg">
-                            <i class="fas fa-wifi text-white text-3xl"></i>
-                        </div>
+                <div class="glass-card p-12 rounded-[4rem]">
+                    <h2 class="text-4xl font-black mb-4 text-white">Referral Code</h2>
+                    <div class="bg-slate-900/80 p-10 rounded-3xl inline-block mb-12 border border-white/10">
+                        <span class="text-6xl font-black text-white">2110377</span>
                     </div>
-                    <h2 class="text-4xl md:text-5xl font-black mb-4 text-white">Referral Discount</h2>
-                    <p class="text-slate-400 mb-10 text-lg">Save on your next NBN bill with Aussie Broadband.</p>
-                    
-                    <div class="bg-slate-900/80 border border-white/10 p-10 rounded-3xl inline-block mb-12 shadow-2xl">
-                        <span class="text-slate-500 text-xs font-bold uppercase tracking-widest block mb-2">Your Code</span>
-                        <span class="text-5xl md:text-7xl font-black text-white tracking-tighter">2110377</span>
-                    </div>
-                    
-                    <div class="max-w-md mx-auto">
-                        <a href="https://www.aussiebroadband.com.au/" target="_blank" class="block w-full py-5 bg-[#00a8b4] hover:bg-[#008f99] text-white font-black rounded-2xl shadow-xl shadow-[#00a8b4]/20 transition-all transform hover:scale-[1.02] flex items-center justify-center gap-3">
-                            <i class="fas fa-external-link-alt text-sm"></i> Go to Aussie Broadband
-                        </a>
-                        <p class="text-slate-500 mt-6 text-sm">Enter the code during signup to claim your discount.</p>
-                    </div>
+                    <button onclick="showPage('home')" class="block mx-auto text-blue-400 font-bold hover:underline">Back to Home</button>
                 </div>
             </div>
         </div>
 
-        <!-- GAME PAGE -->
-        <div id="game-page" class="page-section pt-40 pb-32 hero-gradient min-h-screen">
+        <!-- GAMES ARCADE PAGE -->
+        <div id="games-page" class="page-section pt-40 pb-32 hero-gradient min-h-screen">
             <div class="max-w-5xl mx-auto px-4">
-                <div class="flex justify-between items-center mb-12">
-                    <button onclick="showPage('home')" class="text-slate-400 hover:text-white flex items-center gap-2"><i class="fas fa-arrow-left"></i> Home</button>
-                    <h2 class="text-3xl font-black text-white">AJ <span class="text-blue-500">NATURE</span> GOLF</h2>
-                </div>
-
-                <div class="glass-card p-4 rounded-[2.5rem] relative">
-                    <div class="absolute top-8 left-8 z-10 flex gap-4">
-                        <div class="bg-slate-950/80 px-4 py-2 rounded-xl border border-white/10 text-center min-w-[70px]">
-                            <span class="text-[10px] text-slate-500 uppercase block">Hole</span>
-                            <span id="golfHole" class="text-xl font-black text-white">1 / 3</span>
+                
+                <!-- Game Selector -->
+                <div id="game-selector" class="animate__animated animate__fadeIn">
+                    <h2 class="text-5xl font-black text-white mb-12 tracking-tighter text-center uppercase">AJ <span class="text-blue-500">Gaming</span> Arcade</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-20">
+                        <div onclick="launchGame('golf')" class="game-mode-card glass-card p-6 rounded-[2.5rem] group">
+                            <div class="w-16 h-16 bg-green-500/10 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+                                <i class="fas fa-golf-ball text-3xl text-green-400"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-white mb-1 text-center">AJ Nature Golf</h3>
+                            <p class="text-slate-400 text-xs text-center">3-Hole nature challenge.</p>
                         </div>
-                        <div class="bg-slate-950/80 px-4 py-2 rounded-xl border border-white/10 text-center min-w-[70px]">
-                            <span class="text-[10px] text-slate-500 uppercase block">Par</span>
-                            <span id="golfPar" class="text-xl font-black text-blue-400">3</span>
+                        <div onclick="launchGame('shooter')" class="game-mode-card glass-card p-6 rounded-[2.5rem] group">
+                            <div class="w-16 h-16 bg-purple-500/10 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+                                <i class="fas fa-rocket text-3xl text-purple-400"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-white mb-1 text-center">AJ Astro Shooter</h3>
+                            <p class="text-slate-400 text-xs text-center">Arcade space survival.</p>
                         </div>
-                        <div class="bg-slate-950/80 px-4 py-2 rounded-xl border border-white/10 text-center min-w-[70px]">
-                            <span class="text-[10px] text-slate-500 uppercase block">Strokes</span>
-                            <span id="golfStrokes" class="text-xl font-black text-white">0</span>
+                        <div onclick="launchGame('jumper')" class="game-mode-card glass-card p-6 rounded-[2.5rem] group">
+                            <div class="w-16 h-16 bg-orange-500/10 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+                                <i class="fas fa-running text-3xl text-orange-400"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-white mb-1 text-center">AJ Jumper</h3>
+                            <p class="text-slate-400 text-xs text-center">Jump over moving blocks.</p>
                         </div>
                     </div>
-                    
-                    <div id="gameContainer" class="relative w-full aspect-video md:aspect-[21/9] bg-[#064e3b] rounded-[2rem] overflow-hidden">
-                        <canvas id="golfCanvas"></canvas>
-                        
-                        <!-- Game Overlays -->
-                        <div id="gameOverlay" class="absolute inset-0 bg-slate-950/60 backdrop-blur-sm flex flex-col items-center justify-center text-center p-8 hidden">
-                            <h3 id="overlayTitle" class="text-4xl font-black text-white mb-4 uppercase tracking-tighter">Hole in One!</h3>
-                            <p id="overlaySub" class="text-slate-300 mb-8 font-semibold">Ready for the next challenge?</p>
-                            <button id="nextBtn" onclick="nextHole()" class="px-10 py-4 bg-blue-600 text-white rounded-2xl font-black shadow-xl shadow-blue-600/20 hover:bg-blue-500 transition-all">Next Hole</button>
+                </div>
+
+                <!-- Golf Game -->
+                <div id="golf-container" class="hidden">
+                    <div class="flex justify-between items-center mb-6">
+                        <button onclick="exitGame()" class="text-slate-400 hover:text-white"><i class="fas fa-times"></i> Exit</button>
+                        <h2 class="text-2xl font-black text-white uppercase">AJ <span class="text-blue-500">Nature</span> Golf</h2>
+                    </div>
+                    <div class="glass-card p-4 rounded-[2.5rem] relative">
+                         <div class="absolute top-8 left-8 z-10 flex gap-2">
+                            <div class="bg-black/50 px-3 py-1 rounded-lg text-xs font-bold text-white">HOLE: <span id="golfHole">1</span></div>
+                            <div class="bg-black/50 px-3 py-1 rounded-lg text-xs font-bold text-white">STROKES: <span id="golfStrokes">0</span></div>
                         </div>
+                        <div class="aspect-video md:aspect-[21/9] w-full">
+                            <canvas id="golfCanvas"></canvas>
+                        </div>
+                    </div>
+                </div>
 
-                        <!-- Final Scoreboard -->
-                        <div id="scoreboardOverlay" class="absolute inset-0 bg-slate-950/90 backdrop-blur-md flex flex-col items-center justify-center text-center p-8 hidden animate__animated animate__fadeIn">
-                            <div class="overflow-y-auto w-full max-h-full py-10 px-4 flex flex-col items-center">
-                                <div class="w-16 h-16 bg-yellow-500 rounded-full flex items-center justify-center mb-6 shadow-xl shadow-yellow-500/20 shrink-0">
-                                    <i class="fas fa-trophy text-slate-900 text-2xl"></i>
-                                </div>
-                                <h3 class="text-4xl font-black text-white mb-2 uppercase tracking-tighter">Course Complete</h3>
-                                <p class="text-slate-400 mb-8">Great performance out there!</p>
-                                
-                                <div class="grid grid-cols-3 gap-4 mb-6 w-full max-w-md shrink-0">
-                                    <div class="bg-white/5 border border-white/10 p-4 rounded-2xl">
-                                        <span class="text-[10px] uppercase text-slate-500 block mb-1">Hole 1</span>
-                                        <span id="scoreHole1" class="text-xl font-bold text-white">0</span>
-                                    </div>
-                                    <div class="bg-white/5 border border-white/10 p-4 rounded-2xl">
-                                        <span class="text-[10px] uppercase text-slate-500 block mb-1">Hole 2</span>
-                                        <span id="scoreHole2" class="text-xl font-bold text-white">0</span>
-                                    </div>
-                                    <div class="bg-white/5 border border-white/10 p-4 rounded-2xl">
-                                        <span class="text-[10px] uppercase text-slate-500 block mb-1">Hole 3</span>
-                                        <span id="scoreHole3" class="text-xl font-bold text-white">0</span>
-                                    </div>
-                                </div>
-
-                                <div class="bg-blue-600/10 border border-blue-500/20 px-8 py-4 rounded-2xl mb-8 flex items-center gap-6">
-                                    <div>
-                                        <span class="text-[10px] uppercase text-blue-400 font-bold block tracking-widest">Total Strokes</span>
-                                        <span id="totalScore" class="text-4xl font-black text-white">0</span>
-                                    </div>
-                                    <button onclick="resetGolf(true)" class="px-6 py-3 bg-white text-slate-950 rounded-xl font-black hover:bg-blue-50 transition-all text-sm">Play Again</button>
-                                </div>
-
-                                <!-- Contact Form Inserted in Scoreboard -->
-                                <div class="w-full max-w-md bg-slate-900/50 p-6 rounded-[2rem] border border-white/10 text-left">
-                                    <h4 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
-                                        <i class="fas fa-tools text-blue-500"></i> Need a real tech fix?
-                                    </h4>
-                                    <form onsubmit="handleFormSubmit(event)" class="space-y-4">
-                                        <div class="grid grid-cols-2 gap-4">
-                                            <div>
-                                                <input type="text" id="custNameScore" required placeholder="Name" class="w-full px-4 py-3 rounded-xl text-sm">
-                                            </div>
-                                            <div>
-                                                <input type="tel" id="custPhoneScore" required placeholder="Phone" class="w-full px-4 py-3 rounded-xl text-sm">
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <textarea id="custIssueScore" required rows="2" placeholder="Tell us about your computer issue..." class="w-full px-4 py-3 rounded-xl text-sm"></textarea>
-                                        </div>
-                                        <button type="submit" class="w-full py-4 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl shadow-lg shadow-blue-600/20 transition-all text-sm">
-                                            Send to AJ Computers
-                                        </button>
-                                    </form>
-                                </div>
+                <!-- Astro Shooter Game -->
+                <div id="shooter-container" class="hidden">
+                    <div class="flex justify-between items-center mb-6">
+                        <button onclick="exitGame()" class="text-slate-400 hover:text-white"><i class="fas fa-times"></i> Exit</button>
+                        <div class="text-center">
+                            <span class="text-[10px] text-purple-400 uppercase font-black block">Score</span>
+                            <span id="shooterScore" class="text-3xl font-black text-white">0</span>
+                        </div>
+                        <h2 class="text-2xl font-black text-white uppercase">AJ Astro <span class="text-purple-500">Shooter</span></h2>
+                    </div>
+                    <div class="glass-card p-4 rounded-[2.5rem] relative bg-slate-900/50">
+                        <div class="aspect-video md:aspect-[21/9] w-full bg-[#020617] rounded-[2rem] overflow-hidden relative">
+                            <canvas id="shooterCanvas"></canvas>
+                            <div id="shooterOverlay" class="absolute inset-0 bg-slate-950/80 backdrop-blur-md flex flex-col items-center justify-center text-center p-8 hidden">
+                                <h3 class="text-4xl font-black text-white mb-2">MISSION FAILED</h3>
+                                <p id="shooterFinalScore" class="text-purple-400 font-bold mb-8">Score: 0</p>
+                                <button onclick="launchGame('shooter')" class="px-10 py-4 bg-purple-600 text-white rounded-2xl font-black hover:bg-purple-500 transition-all">Restart Mission</button>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="mt-6 flex justify-between items-center px-4">
-                        <div class="flex gap-4">
-                            <div class="flex items-center gap-1"><div class="w-3 h-3 bg-yellow-600"></div><span class="text-[10px] text-slate-500">Sand</span></div>
-                            <div class="flex items-center gap-1"><div class="w-3 h-3 bg-blue-400"></div><span class="text-[10px] text-slate-500">Water (OB)</span></div>
-                            <div class="flex items-center gap-1"><div class="w-3 h-3 bg-[#5d4037]"></div><span class="text-[10px] text-slate-500">Bridge</span></div>
+                        <div class="mt-4 flex justify-center gap-8 text-[10px] text-slate-500 font-bold uppercase tracking-widest">
+                            <span><i class="fas fa-arrows-alt text-purple-400 mr-2"></i>Move: Mouse / Touch</span>
+                            <span><i class="fas fa-crosshairs text-purple-400 mr-2"></i>Auto-Fire Enabled</span>
                         </div>
-                        <p class="text-[10px] text-slate-500 italic">Play all 3 holes to see your final score!</p>
-                        <button onclick="resetGolf(true)" class="text-slate-500 text-xs font-bold hover:text-white transition-colors">Reset Course</button>
                     </div>
                 </div>
+
+                <!-- Jumper Game -->
+                <div id="jumper-container" class="hidden">
+                    <div class="flex justify-between items-center mb-6">
+                        <button onclick="exitGame()" class="text-slate-400 hover:text-white"><i class="fas fa-times"></i> Exit</button>
+                        <div class="text-center">
+                            <span class="text-[10px] text-orange-400 uppercase font-black block">Score</span>
+                            <span id="jumperScoreDisplay" class="text-3xl font-black text-white">0</span>
+                        </div>
+                        <h2 class="text-2xl font-black text-white uppercase">AJ <span class="text-orange-500">Jumper</span></h2>
+                    </div>
+                    <div class="glass-card p-4 rounded-[2.5rem] relative bg-slate-900/50">
+                        <div class="aspect-video md:aspect-[21/9] w-full bg-sky-900 rounded-[2rem] overflow-hidden relative">
+                            <canvas id="jumperCanvas"></canvas>
+                            <div id="jumperOverlay" class="absolute inset-0 bg-slate-950/80 backdrop-blur-md flex flex-col items-center justify-center text-center p-8 hidden">
+                                <h3 class="text-4xl font-black text-white mb-2">CRASHED!</h3>
+                                <p id="jumperFinalScore" class="text-orange-400 font-bold mb-8">Score: 0</p>
+                                <button onclick="launchGame('jumper')" class="px-10 py-4 bg-orange-600 text-white rounded-2xl font-black hover:bg-orange-500 transition-all">Try Again</button>
+                            </div>
+                        </div>
+                        <div class="mt-4 flex justify-center gap-8 text-[10px] text-slate-500 font-bold uppercase tracking-widest">
+                            <span><i class="fas fa-hand-pointer text-orange-400 mr-2"></i>Click / Tap to Jump</span>
+                            <span><i class="fas fa-bolt text-orange-400 mr-2"></i>Day/Night Cycle & Mountains</span>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
 
-        <!-- Shared Contact Section (Used on Home Page) -->
+        <!-- Contact Form (Shared) -->
         <section id="contact" class="py-32 bg-slate-950">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="max-w-7xl mx-auto px-4">
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-20">
                     <div>
-                        <h2 class="text-5xl font-extrabold mb-8 text-white tracking-tight">Ready to fix your PC?</h2>
-                        <p class="text-slate-400 text-xl mb-12">Fast, reliable service is just a click away.</p>
-                        <div class="space-y-4">
-                            <a href="tel:0434976351" class="flex items-center gap-4 text-white font-bold text-lg hover:text-blue-400 transition-colors"><i class="fas fa-phone text-blue-500"></i> 0434 976 351</a>
-                            <a href="https://facebook.com/ajcomputersoz" target="_blank" class="flex items-center gap-4 text-white font-bold text-lg hover:text-blue-400 transition-colors"><i class="fab fa-facebook text-blue-500"></i> AJ Computers Oz</a>
-                        </div>
+                        <h2 class="text-5xl font-black text-white mb-8">Let's talk tech.</h2>
+                        <a href="tel:0434976351" class="text-2xl font-bold text-blue-500">0434 976 351</a>
                     </div>
                     <div class="glass-card p-10 rounded-[3rem]">
-                        <form onsubmit="handleFormSubmit(event)" class="space-y-5">
-                            <div>
-                                <label class="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1 mb-2 block">Full Name</label>
-                                <input type="text" id="custName" required placeholder="John Doe" class="w-full px-6 py-4 rounded-2xl">
-                            </div>
-                            <div>
-                                <label class="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1 mb-2 block">Phone Number</label>
-                                <input type="tel" id="custPhone" required placeholder="0400 000 000" class="w-full px-6 py-4 rounded-2xl">
-                            </div>
-                            <div>
-                                <label class="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1 mb-2 block">Issue Description</label>
-                                <textarea id="custIssue" required rows="4" placeholder="Briefly explain what's wrong..." class="w-full px-6 py-4 rounded-2xl"></textarea>
-                            </div>
-                            
-                            <div class="flex items-center gap-4 p-4 bg-slate-900/50 rounded-2xl border border-white/5">
-                                <input type="checkbox" id="pickupRequest" class="custom-checkbox">
-                                <label for="pickupRequest" class="text-sm font-semibold text-slate-300 cursor-pointer">
-                                    I would like to request <span class="text-blue-400">Pick Up & Drop Off</span>
-                                </label>
-                            </div>
-
-                            <button type="submit" class="w-full py-5 mt-4 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-2xl shadow-xl shadow-blue-600/30 transition-all">
-                                Send Messenger Request
-                            </button>
+                        <form onsubmit="handleFormSubmit(event)" class="space-y-4">
+                            <input type="text" id="custName" placeholder="Name" class="w-full bg-slate-900 border border-white/10 p-4 rounded-xl text-white">
+                            <input type="tel" id="custPhone" placeholder="Phone" class="w-full bg-slate-900 border border-white/10 p-4 rounded-xl text-white">
+                            <textarea id="custIssue" placeholder="Issue" class="w-full bg-slate-900 border border-white/10 p-4 rounded-xl text-white"></textarea>
+                            <button type="submit" class="w-full py-4 bg-blue-600 rounded-xl font-bold text-white">Send Request</button>
                         </form>
                     </div>
                 </div>
@@ -418,325 +299,421 @@
     </main>
 
     <script>
-        function toggleMenu() {
-            const nav = document.querySelector('.hidden.md\\:flex');
-            nav.classList.toggle('hidden');
-            nav.classList.toggle('flex');
-            nav.classList.toggle('flex-col');
-            nav.classList.toggle('absolute');
-            nav.classList.toggle('top-20');
-            nav.classList.toggle('bg-slate-950');
-            nav.classList.toggle('w-full');
-            nav.classList.toggle('p-10');
-        }
-
+        // Page Navigation
         function showPage(pageId) {
-            document.querySelectorAll('.page-section').forEach(page => page.classList.remove('active'));
-            const targetPage = document.getElementById(pageId + '-page');
-            if (targetPage) targetPage.classList.add('active');
+            document.querySelectorAll('.page-section').forEach(p => p.classList.remove('active'));
+            document.getElementById(pageId + '-page').classList.add('active');
             window.scrollTo({ top: 0, behavior: 'smooth' });
-            if (pageId === 'game') initGolf();
+            if(pageId !== 'games') exitGame();
         }
 
         function scrollToElement(id) {
-            if (!document.getElementById('home-page').classList.contains('active')) {
-                showPage('home');
-                setTimeout(() => {
-                    const el = document.getElementById(id);
-                    if (el) el.scrollIntoView({ behavior: 'smooth' });
-                }, 100);
-            } else {
-                const el = document.getElementById(id);
-                if (el) el.scrollIntoView({ behavior: 'smooth' });
-            }
+            const el = document.getElementById(id);
+            if(el) el.scrollIntoView({ behavior: 'smooth' });
         }
 
         function handleFormSubmit(e) {
             e.preventDefault();
-            // Detect which form was used
-            const isScoreboardForm = e.target.querySelector('#custNameScore') !== null;
-            
-            let name, phone, issue, pickup = "NO";
-            
-            if (isScoreboardForm) {
-                name = document.getElementById('custNameScore').value;
-                phone = document.getElementById('custPhoneScore').value;
-                issue = document.getElementById('custIssueScore').value;
-            } else {
-                name = document.getElementById('custName').value;
-                phone = document.getElementById('custPhone').value;
-                issue = document.getElementById('custIssue').value;
-                pickup = document.getElementById('pickupRequest').checked ? "YES" : "NO";
-            }
-            
-            const message = `Name: ${name}%0APhone: ${phone}%0APick Up Requested: ${pickup}%0AIssue: ${issue}`;
-            window.open(`https://m.me/ajcomputersoz?text=${message}`, '_blank');
+            const name = document.getElementById('custName').value;
+            const phone = document.getElementById('custPhone').value;
+            const issue = document.getElementById('custIssue').value;
+            window.open(`https://m.me/ajcomputersoz?text=Name: ${name}%0APhone: ${phone}%0AIssue: ${issue}`, '_blank');
         }
 
-        // --- ENHANCED GOLF GAME ---
-        let canvas, ctx;
-        let ball = { x: 100, y: 100, radius: 7, vx: 0, vy: 0, active: false, startX: 100, startY: 100 };
-        let man = { x: 80, y: 100, width: 20, height: 40 };
-        let hole = { x: 0, y: 0, radius: 12 };
-        let hazards = [], staticObjects = [], bridges = [];
-        let isAiming = false, mousePos = { x: 0, y: 0 };
-        let strokes = 0, currentHole = 1, gameLoopReq;
-        let courseScores = [0, 0, 0];
-        const holePars = [3, 4, 5];
+        // Arcade Logic
+        let gameLoopReq;
+        let activeGame = null;
 
+        function launchGame(mode) {
+            exitGame();
+            document.getElementById('game-selector').classList.add('hidden');
+            if(mode === 'golf') {
+                document.getElementById('golf-container').classList.remove('hidden');
+                activeGame = 'golf';
+                initGolf();
+            } else if(mode === 'shooter') {
+                document.getElementById('shooter-container').classList.remove('hidden');
+                activeGame = 'shooter';
+                initShooter();
+            } else if(mode === 'jumper') {
+                document.getElementById('jumper-container').classList.remove('hidden');
+                activeGame = 'jumper';
+                initJumper();
+            }
+        }
+
+        function exitGame() {
+            if(gameLoopReq) cancelAnimationFrame(gameLoopReq);
+            activeGame = null;
+            document.getElementById('game-selector').classList.remove('hidden');
+            document.querySelectorAll('[id$="-container"]').forEach(c => c.classList.add('hidden'));
+            document.querySelectorAll('[id$="Overlay"]').forEach(o => o.classList.add('hidden'));
+        }
+
+        // --- GOLF GAME ---
+        let gCanvas, gCtx, gBall, gHole, gIsAiming, gStrokes, gHoleNum, gMouse = {x:0, y:0};
         function initGolf() {
-            canvas = document.getElementById('golfCanvas');
-            if (!canvas) return;
-            ctx = canvas.getContext('2d');
-            resizeGolfCanvas();
-            resetGolf(true);
-            canvas.onmousedown = startAim;
-            canvas.onmousemove = updateMouse;
-            window.onmouseup = endAim;
+            gCanvas = document.getElementById('golfCanvas');
+            gCtx = gCanvas.getContext('2d');
+            const wrap = gCanvas.parentElement;
+            gCanvas.width = wrap.clientWidth; gCanvas.height = wrap.clientHeight;
+            gHoleNum = 1; gStrokes = 0; gIsAiming = false;
+            gBall = { x: 100, y: gCanvas.height/2, r: 7, vx: 0, vy: 0, active: false };
+            gHole = { x: gCanvas.width - 100, y: gCanvas.height/2, r: 12 };
             
-            canvas.addEventListener('touchstart', (e) => { e.preventDefault(); startAim(); }, { passive: false });
-            canvas.addEventListener('touchmove', (e) => {
-                e.preventDefault();
-                const touch = e.touches[0];
-                const rect = canvas.getBoundingClientRect();
-                mousePos = { x: touch.clientX - rect.left, y: touch.clientY - rect.top };
-            }, { passive: false });
-            canvas.addEventListener('touchend', (e) => { e.preventDefault(); endAim(); }, { passive: false });
-
-            if (gameLoopReq) cancelAnimationFrame(gameLoopReq);
-            gameLoop();
+            gCanvas.onmousedown = () => { if(!gBall.active) gIsAiming = true; };
+            gCanvas.onmousemove = (e) => { 
+                const r = gCanvas.getBoundingClientRect(); 
+                gMouse = { x: e.clientX - r.left, y: e.clientY - r.top };
+            };
+            window.onmouseup = () => {
+                if(!gIsAiming) return; gIsAiming = false;
+                const dx = (gBall.x - gMouse.x)*0.1; const dy = (gBall.y - gMouse.y)*0.1;
+                gBall.vx = dx; gBall.vy = dy; gBall.active = true; gStrokes++;
+                document.getElementById('golfStrokes').innerText = gStrokes;
+            };
+            loopGolf();
         }
 
-        function resizeGolfCanvas() {
-            const container = document.getElementById('gameContainer');
-            if (!container) return;
-            canvas.width = container.clientWidth;
-            canvas.height = container.clientHeight;
-        }
-
-        function resetGolf(fullReset = false) {
-            if (fullReset) { 
-                currentHole = 1; 
-                strokes = 0; 
-                courseScores = [0, 0, 0];
-                document.getElementById('scoreboardOverlay').classList.add('hidden');
+        function loopGolf() {
+            if(activeGame !== 'golf') return;
+            gCtx.fillStyle = '#064e3b'; gCtx.fillRect(0,0,gCanvas.width, gCanvas.height);
+            if(gBall.active) {
+                gBall.x += gBall.vx; gBall.y += gBall.vy; gBall.vx *= 0.98; gBall.vy *= 0.98;
+                if(Math.hypot(gBall.vx, gBall.vy) < 0.2) gBall.active = false;
+                if(Math.hypot(gBall.x - gHole.x, gBall.y - gHole.y) < gHole.r) {
+                    gBall.x = 100; gBall.y = gCanvas.height/2; gBall.vx = 0; gBall.vy = 0; gBall.active = false;
+                    gHoleNum++; if(gHoleNum > 3) gHoleNum = 1;
+                    document.getElementById('golfHole').innerText = gHoleNum;
+                }
             }
-            document.getElementById('golfHole').innerText = `${currentHole} / 3`;
-            document.getElementById('golfPar').innerText = holePars[currentHole-1];
-            document.getElementById('golfStrokes').innerText = strokes;
-            document.getElementById('gameOverlay').classList.add('hidden');
+            gCtx.fillStyle = '#000'; gCtx.beginPath(); gCtx.arc(gHole.x, gHole.y, gHole.r, 0, Math.PI*2); gCtx.fill();
+            gCtx.fillStyle = '#fff'; gCtx.beginPath(); gCtx.arc(gBall.x, gBall.y, gBall.r, 0, Math.PI*2); gCtx.fill();
+            if(gIsAiming) { gCtx.strokeStyle = 'white'; gCtx.beginPath(); gCtx.moveTo(gBall.x, gBall.y); gCtx.lineTo(gMouse.x, gMouse.y); gCtx.stroke(); }
+            gameLoopReq = requestAnimationFrame(loopGolf);
+        }
+
+        // --- ASTRO SHOOTER GAME ---
+        let sCanvas, sCtx, sPlayer, sBullets, sEnemies, sScore, sTimer, sStars;
+        function initShooter() {
+            sCanvas = document.getElementById('shooterCanvas');
+            sCtx = sCanvas.getContext('2d');
+            const wrap = sCanvas.parentElement;
+            sCanvas.width = wrap.clientWidth; sCanvas.height = wrap.clientHeight;
             
-            ball.startX = 80; ball.startY = canvas.height / 2;
-            ball.x = ball.startX; ball.y = ball.startY;
-            ball.vx = 0; ball.vy = 0; ball.active = false;
-            man.x = ball.x - 25; man.y = ball.y;
+            activeGame = 'shooter';
+            sPlayer = { x: 80, y: sCanvas.height/2, r: 15, targetY: sCanvas.height/2, flash: 0 };
+            sBullets = []; sEnemies = []; sScore = 0; sTimer = 0;
+            sStars = Array.from({length: 60}, () => ({x: Math.random()*sCanvas.width, y: Math.random()*sCanvas.height, s: Math.random()*2+1}));
+            
+            document.getElementById('shooterScore').innerText = 0;
+            document.getElementById('shooterOverlay').classList.add('hidden');
 
-            generateHoleLayout(currentHole);
-        }
-
-        function generateHoleLayout(holeNum) {
-            hazards = []; staticObjects = []; bridges = [];
-            if (holeNum === 1) {
-                hole.x = canvas.width - 100;
-                hole.y = canvas.height / 2;
-                staticObjects.push({ type: 'tree', x: canvas.width * 0.3, y: canvas.height * 0.3, radius: 25 });
-                staticObjects.push({ type: 'tree', x: canvas.width * 0.5, y: canvas.height * 0.5, radius: 30 });
-                staticObjects.push({ type: 'tree', x: canvas.width * 0.7, y: canvas.height * 0.8, radius: 25 });
-                hazards.push({ type: 'sand', x: canvas.width * 0.45, y: canvas.height * 0.1, w: 100, h: 120 });
-            } else if (holeNum === 2) {
-                hole.x = canvas.width - 80;
-                hole.y = 80;
-                hazards.push({ type: 'sand', x: 150, y: 0, w: canvas.width - 300, h: canvas.height * 0.35 });
-                hazards.push({ type: 'sand', x: 250, y: canvas.height * 0.65, w: canvas.width - 250, h: canvas.height * 0.35 });
-                staticObjects.push({ type: 'tree', x: 200, y: canvas.height/2, radius: 30 });
-            } else {
-                hole.x = canvas.width - 80;
-                hole.y = canvas.height / 2;
-                const riverX = canvas.width * 0.45;
-                const riverW = canvas.width * 0.15;
-                hazards.push({ type: 'water', x: riverX, y: 0, w: riverW, h: canvas.height });
-                const bridgeH = 60;
-                bridges.push({ x: riverX - 5, y: (canvas.height/2) - (bridgeH/2), w: riverW + 10, h: bridgeH });
-                staticObjects.push({ type: 'tree', x: canvas.width * 0.7, y: canvas.height * 0.2, radius: 25 });
-                staticObjects.push({ type: 'tree', x: canvas.width * 0.7, y: canvas.height * 0.8, radius: 25 });
-                staticObjects.push({ type: 'tree', x: canvas.width * 0.85, y: canvas.height * 0.4, radius: 20 });
-            }
-        }
-
-        function nextHole() {
-            courseScores[currentHole - 1] = strokes;
-            if (currentHole < 3) {
-                strokes = 0;
-                currentHole++;
-                resetGolf();
-            } else {
-                showScoreboard();
-            }
-        }
-
-        function showScoreboard() {
-            document.getElementById('scoreHole1').innerText = courseScores[0];
-            document.getElementById('scoreHole2').innerText = courseScores[1];
-            document.getElementById('scoreHole3').innerText = courseScores[2];
-            const total = courseScores.reduce((a, b) => a + b, 0);
-            document.getElementById('totalScore').innerText = total;
-            document.getElementById('scoreboardOverlay').classList.remove('hidden');
-        }
-
-        function startAim() { if (!ball.active) { isAiming = true; } }
-        function updateMouse(e) { 
-            const rect = canvas.getBoundingClientRect(); 
-            mousePos = { x: e.clientX - rect.left, y: e.clientY - rect.top }; 
-        }
-        function endAim() { 
-            if (!isAiming) return; 
-            isAiming = false; 
-            const dx = (ball.x - mousePos.x) * 0.12; 
-            const dy = (ball.y - mousePos.y) * 0.12; 
-            if (Math.hypot(dx, dy) > 0.4) { 
-                ball.vx = dx; ball.vy = dy; ball.active = true; strokes++; 
-                document.getElementById('golfStrokes').innerText = strokes; 
-            } 
-        }
-
-        function drawTree(obj) {
-            ctx.fillStyle = 'rgba(0,0,0,0.2)';
-            ctx.beginPath();
-            ctx.ellipse(obj.x + 5, obj.y + 15, obj.radius * 0.8, obj.radius * 0.3, 0, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.fillStyle = '#451a03';
-            ctx.fillRect(obj.x - 6, obj.y - 5, 12, 30);
-            const colors = ['#064e3b', '#065f46', '#047857'];
-            colors.forEach((color, i) => {
-                ctx.fillStyle = color;
-                ctx.beginPath();
-                const r = obj.radius - (i * 4);
-                const offset = i * 6;
-                ctx.arc(obj.x, obj.y - 15 - offset, r, 0, Math.PI * 2);
-                ctx.fill();
-            });
-        }
-
-        function update() {
-            if (!ball.active) {
-                man.x += (ball.x - 20 - man.x) * 0.1;
-                man.y += (ball.y - man.y) * 0.1;
-                return;
+            const updatePos = (clientY) => {
+                const r = sCanvas.getBoundingClientRect();
+                sPlayer.targetY = clientY - r.top;
             };
 
-            let friction = 0.985;
-            let onBridge = false;
+            sCanvas.onmousemove = (e) => updatePos(e.clientY);
+            sCanvas.ontouchmove = (e) => {
+                e.preventDefault();
+                updatePos(e.touches[0].clientY);
+            };
 
-            bridges.forEach(b => {
-                if (ball.x > b.x && ball.x < b.x + b.w && ball.y > b.y && ball.y < b.y + b.h) {
-                    onBridge = true;
-                }
-            });
+            loopShooter();
+        }
 
-            hazards.forEach(h => {
-                if (ball.x > h.x && ball.x < h.x + h.w && ball.y > h.y && ball.y < h.y + h.h) {
-                    if (h.type === 'sand') friction = 0.85;
-                    if (h.type === 'water' && !onBridge) {
-                        ball.active = false;
-                        ball.vx = 0; ball.vy = 0;
-                        ball.x = h.x - 20; 
-                        ball.y = canvas.height / 2;
-                    }
-                }
-            });
-
-            ball.x += ball.vx; ball.y += ball.vy; 
-            ball.vx *= friction; ball.vy *= friction;
-
-            staticObjects.forEach(obj => {
-                let d = Math.hypot(ball.x - obj.x, ball.y - obj.y);
-                if(d < ball.radius + obj.radius) {
-                    let angle = Math.atan2(ball.y - obj.y, ball.x - obj.x);
-                    ball.x = obj.x + Math.cos(angle) * (ball.radius + obj.radius);
-                    ball.y = obj.y + Math.sin(angle) * (ball.radius + obj.radius);
-                    const speed = Math.hypot(ball.vx, ball.vy);
-                    ball.vx = Math.cos(angle) * (speed * 0.8 + 1); 
-                    ball.vy = Math.sin(angle) * (speed * 0.8 + 1);
-                }
-            });
-
-            if (ball.x < ball.radius || ball.x > canvas.width - ball.radius) {
-                ball.vx *= -0.7;
-                ball.x = ball.x < ball.radius ? ball.radius : canvas.width - ball.radius;
-            }
-            if (ball.y < ball.radius || ball.y > canvas.height - ball.radius) {
-                ball.vy *= -0.7;
-                ball.y = ball.y < ball.radius ? ball.radius : canvas.height - ball.radius;
-            }
+        function loopShooter() {
+            if(activeGame !== 'shooter') return;
+            sCtx.fillStyle = '#020617'; sCtx.fillRect(0,0,sCanvas.width, sCanvas.height);
             
-            if (Math.hypot(ball.x - hole.x, ball.y - hole.y) < hole.radius && Math.hypot(ball.vx, ball.vy) < 2.5) {
-                ball.active = false; 
-                document.getElementById('gameOverlay').classList.remove('hidden');
-                document.getElementById('nextBtn').innerText = currentHole === 3 ? "View Scoreboard" : "Next Hole";
+            const difficultyMultiplier = 1 + (sScore / 5000);
+            const enemySpawnRate = Math.max(15, 45 - Math.floor(sScore / 300));
+            
+            sCtx.fillStyle = '#fff';
+            sStars.forEach(s => {
+                s.x -= s.s * difficultyMultiplier; if(s.x < 0) s.x = sCanvas.width;
+                sCtx.beginPath(); sCtx.arc(s.x, s.y, s.s/2, 0, Math.PI*2); sCtx.fill();
+            });
+
+            sPlayer.y += (sPlayer.targetY - sPlayer.y) * 0.15;
+            
+            sCtx.save();
+            sCtx.translate(sPlayer.x, sPlayer.y);
+            sCtx.fillStyle = sTimer % 4 < 2 ? '#3b82f6' : '#60a5fa';
+            sCtx.beginPath();
+            sCtx.moveTo(-15, -5); sCtx.lineTo(-30 - Math.random()*10, 0); sCtx.lineTo(-15, 5);
+            sCtx.fill();
+            sCtx.fillStyle = sPlayer.flash > 0 ? '#fff' : '#1e40af';
+            sCtx.beginPath();
+            sCtx.moveTo(25, 0); sCtx.lineTo(-10, -18); sCtx.lineTo(-5, -5); sCtx.lineTo(-15, -5); sCtx.lineTo(-15, 5); sCtx.lineTo(-5, 5); sCtx.lineTo(-10, 18);
+            sCtx.closePath(); sCtx.fill();
+            sCtx.fillStyle = '#60a5fa';
+            sCtx.beginPath(); sCtx.ellipse(5, 0, 10, 4, 0, 0, Math.PI*2); sCtx.fill();
+            sCtx.restore();
+            if(sPlayer.flash > 0) sPlayer.flash--;
+
+            sTimer++;
+            const fireRate = Math.max(6, 12 - Math.floor(sScore/2000));
+            if(sTimer % fireRate === 0) sBullets.push({x: sPlayer.x + 25, y: sPlayer.y, vx: 12});
+
+            if(sTimer % enemySpawnRate === 0) {
+                const size = Math.max(10, 18 - (sScore/10000));
+                sEnemies.push({
+                    x: sCanvas.width + 50, y: Math.random()*sCanvas.height, r: size + Math.random()*10, hp: 1, 
+                    vx: (2.5 + Math.random()*3) * difficultyMultiplier, rot: 0
+                });
             }
-            if (Math.hypot(ball.vx, ball.vy) < 0.1) ball.active = false;
-        }
 
-        function draw() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = '#064e3b';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            sBullets = sBullets.filter(b => {
+                b.x += b.vx;
+                sCtx.fillStyle = '#60a5fa';
+                sCtx.shadowBlur = 10; sCtx.shadowColor = '#3b82f6';
+                sCtx.fillRect(b.x, b.y-2, 12, 4);
+                sCtx.shadowBlur = 0;
+                return b.x < sCanvas.width;
+            });
 
-            hazards.forEach(h => { 
-                if (h.type === 'sand') {
-                    ctx.fillStyle = '#ca8a04'; 
-                    ctx.beginPath(); ctx.roundRect(h.x, h.y, h.w, h.h, 20); ctx.fill(); 
-                } else if (h.type === 'water') {
-                    ctx.fillStyle = '#0ea5e9';
-                    ctx.fillRect(h.x, h.y, h.w, h.h);
-                    ctx.strokeStyle = 'rgba(255,255,255,0.2)';
-                    ctx.lineWidth = 1;
-                    for(let i=0; i<5; i++) {
-                        const rippleY = (Date.now()/50 + i*50) % canvas.height;
-                        ctx.beginPath(); ctx.moveTo(h.x, rippleY); ctx.lineTo(h.x + h.w, rippleY); ctx.stroke();
+            sEnemies = sEnemies.filter(e => {
+                e.x -= e.vx; e.rot += 0.05;
+                sCtx.strokeStyle = 'rgba(239, 68, 68, 0.4)'; sCtx.lineWidth = 2;
+                sCtx.beginPath(); sCtx.arc(e.x, e.y, e.r + 8 + Math.sin(sTimer/5)*3, 0, Math.PI*2); sCtx.stroke();
+                sCtx.fillStyle = '#ef4444';
+                sCtx.beginPath();
+                const sides = 6;
+                for(let i=0; i<sides; i++) {
+                    const ang = e.rot + (i * Math.PI*2/sides);
+                    const px = e.x + Math.cos(ang) * e.r;
+                    const py = e.y + Math.sin(ang) * e.r;
+                    if(i === 0) sCtx.moveTo(px, py); else sCtx.lineTo(px, py);
+                }
+                sCtx.closePath(); sCtx.fill();
+                
+                if(Math.hypot(e.x - sPlayer.x, e.y - sPlayer.y) < e.r + sPlayer.r) {
+                    document.getElementById('shooterOverlay').classList.remove('hidden');
+                    document.getElementById('shooterFinalScore').innerText = "Final Score: " + sScore;
+                    activeGame = null;
+                }
+
+                sBullets.forEach((b, bi) => {
+                    if(Math.hypot(e.x - b.x, e.y - b.y) < e.r + 5) {
+                        e.hp--; sBullets.splice(bi, 1);
+                        sScore += 100; document.getElementById('shooterScore').innerText = sScore;
                     }
-                }
+                });
+                return e.x > -100 && e.hp > 0;
             });
-
-            bridges.forEach(b => {
-                ctx.fillStyle = '#5d4037';
-                ctx.fillRect(b.x, b.y, b.w, b.h);
-                ctx.strokeStyle = '#3e2723';
-                ctx.lineWidth = 2;
-                for(let i=5; i<b.w; i+=10) {
-                    ctx.beginPath(); ctx.moveTo(b.x + i, b.y); ctx.lineTo(b.x + i, b.y + b.h); ctx.stroke();
-                }
-                ctx.fillStyle = '#3e2723';
-                ctx.fillRect(b.x, b.y - 4, b.w, 4);
-                ctx.fillRect(b.x, b.y + b.h, b.w, 4);
-            });
-
-            staticObjects.forEach(obj => { if (obj.type === 'tree') drawTree(obj); });
-
-            ctx.fillStyle = '#000'; ctx.beginPath(); ctx.arc(hole.x, hole.y, hole.radius, 0, Math.PI*2); ctx.fill();
-            ctx.fillStyle = '#dc2626'; ctx.beginPath(); ctx.moveTo(hole.x, hole.y - 2); ctx.lineTo(hole.x + 10, hole.y - 12); ctx.lineTo(hole.x, hole.y - 22); ctx.fill();
-            ctx.strokeStyle = '#fff'; ctx.beginPath(); ctx.moveTo(hole.x, hole.y - 2); ctx.lineTo(hole.x, hole.y - 25); ctx.stroke();
-
-            ctx.strokeStyle = '#fff'; ctx.lineWidth = 2;
-            const hY = man.y - 35;
-            ctx.beginPath(); ctx.arc(man.x, hY, 5, 0, Math.PI*2); ctx.stroke();
-            ctx.beginPath(); ctx.moveTo(man.x, hY + 5); ctx.lineTo(man.x, man.y - 10); ctx.stroke();
-            ctx.beginPath(); ctx.moveTo(man.x, man.y - 10); ctx.lineTo(man.x - 5, man.y); ctx.stroke();
-            ctx.beginPath(); ctx.moveTo(man.x, man.y - 10); ctx.lineTo(man.x + 5, man.y); ctx.stroke();
-
-            if (isAiming) { 
-                ctx.strokeStyle = 'rgba(255,255,255,0.4)'; ctx.setLineDash([5, 5]); 
-                ctx.beginPath(); ctx.moveTo(ball.x, ball.y); ctx.lineTo(mousePos.x, mousePos.y); ctx.stroke(); 
-                ctx.setLineDash([]); 
-            }
-
-            ctx.fillStyle = '#fff'; ctx.shadowBlur = 4; ctx.shadowColor = 'rgba(0,0,0,0.5)';
-            ctx.beginPath(); ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI*2); ctx.fill();
-            ctx.shadowBlur = 0;
+            gameLoopReq = requestAnimationFrame(loopShooter);
         }
 
-        function gameLoop() { update(); draw(); gameLoopReq = requestAnimationFrame(gameLoop); }
-        window.onload = initGolf;
+        // --- AJ JUMPER GAME ---
+        let jCanvas, jCtx, jMan, jBlocks, jScore, jTimer, jGroundY, jClouds, jMountains;
+        function initJumper() {
+            jCanvas = document.getElementById('jumperCanvas');
+            jCtx = jCanvas.getContext('2d');
+            const wrap = jCanvas.parentElement;
+            jCanvas.width = wrap.clientWidth; jCanvas.height = wrap.clientHeight;
+            
+            activeGame = 'jumper';
+            jGroundY = jCanvas.height - 60;
+            jMan = { 
+                x: 120, y: jGroundY, vy: 0, 
+                w: 24, h: 50, jumping: false, 
+                runFrame: 0, squash: 1, stretch: 1
+            };
+            jBlocks = []; jScore = 0; jTimer = 0;
+            
+            // Background Assets
+            jClouds = Array.from({length: 5}, () => ({
+                x: Math.random()*jCanvas.width, 
+                y: 50 + Math.random()*100, 
+                s: 0.2 + Math.random() * 0.5,
+                w: 60 + Math.random()*40
+            }));
+            
+            jMountains = Array.from({length: 4}, (v, i) => ({
+                x: i * (jCanvas.width / 2.5),
+                w: 200 + Math.random() * 200,
+                h: 80 + Math.random() * 100,
+                c: i % 2 === 0 ? '#1e3a8a' : '#1e40af' // Varied mountain blues
+            }));
+            
+            document.getElementById('jumperScoreDisplay').innerText = 0;
+            document.getElementById('jumperOverlay').classList.add('hidden');
+
+            const doJump = () => {
+                if(!jMan.jumping) {
+                    jMan.vy = -17; jMan.jumping = true;
+                    jMan.squash = 0.6; jMan.stretch = 1.4;
+                }
+            };
+            jCanvas.onmousedown = (e) => { e.preventDefault(); doJump(); };
+            jCanvas.ontouchstart = (e) => { e.preventDefault(); doJump(); };
+
+            loopJumper();
+        }
+
+        function loopJumper() {
+            if(activeGame !== 'jumper') return;
+            
+            jTimer++;
+            const diff = jScore / 1000;
+            const speed = 7 + (diff * 1.5);
+
+            // Day / Night Cycle (Celestial Rotation)
+            const celestialCycle = (jTimer * 0.005) % (Math.PI * 2);
+            const isDay = Math.sin(celestialCycle) > 0;
+            
+            // Dynamic Sky Gradient
+            let skyGrad = jCtx.createLinearGradient(0,0,0, jCanvas.height);
+            if(isDay) {
+                skyGrad.addColorStop(0, '#38bdf8'); // Sky blue
+                skyGrad.addColorStop(1, '#7dd3fc'); 
+            } else {
+                skyGrad.addColorStop(0, '#020617'); // Night deep
+                skyGrad.addColorStop(1, '#1e1b4b');
+            }
+            jCtx.fillStyle = skyGrad; jCtx.fillRect(0,0,jCanvas.width, jCanvas.height);
+
+            // Sun & Moon
+            const cx = jCanvas.width / 2 + Math.cos(celestialCycle) * (jCanvas.width * 0.4);
+            const cy = jCanvas.height / 2 - Math.sin(celestialCycle) * (jCanvas.height * 0.4);
+            
+            jCtx.save();
+            if(isDay) {
+                // Sun
+                jCtx.shadowBlur = 40; jCtx.shadowColor = '#fbbf24';
+                jCtx.fillStyle = '#fbbf24';
+                jCtx.beginPath(); jCtx.arc(cx, cy, 30, 0, Math.PI*2); jCtx.fill();
+            } else {
+                // Moon
+                jCtx.shadowBlur = 20; jCtx.shadowColor = '#f1f5f9';
+                jCtx.fillStyle = '#f1f5f9';
+                jCtx.beginPath(); jCtx.arc(cx, cy, 25, 0, Math.PI*2); jCtx.fill();
+                // Moon Crater effect
+                jCtx.fillStyle = '#cbd5e1';
+                jCtx.beginPath(); jCtx.arc(cx+5, cy-5, 5, 0, Math.PI*2); jCtx.fill();
+            }
+            jCtx.restore();
+
+            // Mountains (Parallax Layer)
+            jMountains.forEach(m => {
+                m.x -= speed * 0.15;
+                if(m.x + m.w < 0) m.x = jCanvas.width;
+                jCtx.fillStyle = m.c;
+                jCtx.beginPath();
+                jCtx.moveTo(m.x, jGroundY);
+                jCtx.lineTo(m.x + m.w/2, jGroundY - m.h);
+                jCtx.lineTo(m.x + m.w, jGroundY);
+                jCtx.fill();
+            });
+
+            // Clouds (Front Parallax)
+            jCtx.fillStyle = isDay ? 'rgba(255,255,255,0.7)' : 'rgba(255,255,255,0.1)';
+            jClouds.forEach(c => {
+                c.x -= speed * 0.3;
+                if(c.x < -c.w) { c.x = jCanvas.width + 20; }
+                jCtx.beginPath();
+                jCtx.ellipse(c.x, c.y, c.w/2, 12, 0, 0, Math.PI*2);
+                jCtx.fill();
+            });
+
+            // Ground
+            jCtx.fillStyle = '#0f172a';
+            jCtx.fillRect(0, jGroundY, jCanvas.width, 60);
+            jCtx.strokeStyle = '#38bdf8'; jCtx.lineWidth = 4;
+            jCtx.beginPath(); jCtx.moveTo(0, jGroundY); jCtx.lineTo(jCanvas.width, jGroundY); jCtx.stroke();
+
+            // Stickman Physics
+            jMan.vy += 0.85;
+            jMan.y += jMan.vy;
+            jMan.squash += (1 - jMan.squash) * 0.15;
+            jMan.stretch += (1 - jMan.stretch) * 0.15;
+
+            if(jMan.y > jGroundY - jMan.h) {
+                if(jMan.jumping) { jMan.squash = 1.3; jMan.stretch = 0.7; }
+                jMan.y = jGroundY - jMan.h; jMan.vy = 0; jMan.jumping = false;
+            }
+
+            // Draw Stickman
+            jCtx.save();
+            jCtx.translate(jMan.x + jMan.w/2, jMan.y + jMan.h);
+            jCtx.scale(jMan.squash, jMan.stretch);
+            
+            jCtx.strokeStyle = '#fff';
+            jCtx.lineWidth = 3;
+            jCtx.lineCap = 'round';
+            
+            const runCycle = Math.sin(jTimer * 0.2);
+            const legAngle = jMan.jumping ? 0.5 : runCycle * 0.8;
+            
+            // Legs
+            jCtx.beginPath();
+            // Left Leg
+            jCtx.moveTo(0, -20);
+            jCtx.lineTo(Math.sin(legAngle)*15, 0);
+            // Right Leg
+            jCtx.moveTo(0, -20);
+            jCtx.lineTo(Math.sin(-legAngle)*15, 0);
+            jCtx.stroke();
+
+            // Torso
+            jCtx.beginPath();
+            jCtx.moveTo(0, -20);
+            jCtx.lineTo(0, -40);
+            jCtx.stroke();
+
+            // Arms
+            jCtx.beginPath();
+            jCtx.moveTo(0, -35);
+            jCtx.lineTo(Math.sin(-legAngle)*12, -25);
+            jCtx.moveTo(0, -35);
+            jCtx.lineTo(Math.sin(legAngle)*12, -25);
+            jCtx.stroke();
+
+            // Head
+            jCtx.beginPath();
+            jCtx.arc(0, -45, 6, 0, Math.PI*2);
+            jCtx.fillStyle = '#fff';
+            jCtx.fill();
+            jCtx.stroke();
+            
+            jCtx.restore();
+
+            // Blocks Spawn
+            const spawnInterval = Math.max(40, 90 - (diff * 10));
+            if(jTimer % Math.floor(spawnInterval) === 0) {
+                const hVar = 25 + Math.random() * (diff > 3 ? 45 : 20);
+                jBlocks.push({ x: jCanvas.width + 50, y: jGroundY - hVar, w: 20 + Math.random()*15, h: hVar, passed: false });
+            }
+
+            // Blocks Update
+            jBlocks = jBlocks.filter(b => {
+                b.x -= speed;
+                jCtx.fillStyle = '#f97316';
+                jCtx.shadowBlur = 15; jCtx.shadowColor = '#f97316';
+                jCtx.fillRect(b.x, b.y, b.w, b.h);
+                jCtx.shadowBlur = 0;
+
+                // Collision
+                const hitX = jMan.x < b.x + b.w && jMan.x + jMan.w > b.x;
+                const hitY = jMan.y + jMan.h > b.y;
+                if(hitX && hitY) {
+                    document.getElementById('jumperOverlay').classList.remove('hidden');
+                    document.getElementById('jumperFinalScore').innerText = "Final Score: " + jScore;
+                    activeGame = null;
+                }
+
+                if(!b.passed && b.x < jMan.x) {
+                    b.passed = true;
+                    jScore += 100;
+                    document.getElementById('jumperScoreDisplay').innerText = jScore;
+                }
+                return b.x > -100;
+            });
+
+            gameLoopReq = requestAnimationFrame(loopJumper);
+        }
     </script>
 </body>
 </html>
