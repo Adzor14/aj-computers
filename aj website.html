@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AJ Computers | Expert Tech Solutions</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+
+        :root {
+            --primary: #3b82f6;
+            --accent: #06b6d4;
+            --dark: #0f172a;
+            --abb-teal: #00a8b4;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .glass-card:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(59, 130, 246, 0.5);
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero-gradient {
+            background: radial-gradient(circle at 0% 0%, rgba(59, 130, 246, 0.12) 0%, transparent 50%),
+                        radial-gradient(circle at 100% 100%, rgba(6, 182, 212, 0.1) 0%, transparent 50%),
+                        #0f172a;
+        }
+
+        .text-gradient {
+            background: linear-gradient(135deg, #60a5fa 0%, #22d3ee 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .service-icon-wrapper {
+            width: 56px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 16px;
+            margin-bottom: 1.5rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .glass-card:hover .service-icon-wrapper {
+            background: var(--primary);
+            color: white;
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        input, textarea {
+            background: rgba(15, 23, 42, 0.6) !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            color: white !important;
+            transition: all 0.3s ease !important;
+        }
+
+        input:focus, textarea:focus {
+            background: rgba(15, 23, 42, 0.9) !important;
+            border-color: var(--primary) !important;
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15) !important;
+        }
+
+        .custom-checkbox {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            accent-color: var(--primary);
+        }
+
+        .page-section {
+            display: none;
+        }
+
+        .page-section.active {
+            display: block;
+        }
+
+        .nav-btn {
+            position: relative;
+        }
+
+        .nav-btn::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-btn:hover::after {
+            width: 100%;
+        }
+
+        #golfCanvas {
+            background: #064e3b;
+            border-radius: 24px;
+            cursor: crosshair;
+            touch-action: none;
+            width: 100%;
+            height: 100%;
+            border: 4px solid #065f46;
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #334155; }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-200">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-slate-950/80 backdrop-blur-xl border-b border-white/5">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+                <div class="flex items-center gap-3 cursor-pointer group" onclick="showPage('home')">
+                    <div class="w-10 h-10 bg-gradient-to-br from-blue-600 to-cyan-500 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/20 group-hover:rotate-12 transition-transform">
+                        <i class="fas fa-microchip text-white text-lg"></i>
+                    </div>
+                    <span class="text-2xl font-black tracking-tighter text-white">AJ<span class="text-blue-500">COMPUTERS</span></span>
+                </div>
+                <div class="hidden md:flex items-center space-x-10">
+                    <button onclick="showPage('home')" class="nav-btn text-sm font-semibold hover:text-white transition">Home</button>
+                    <button onclick="scrollToElement('services')" class="nav-btn text-sm font-semibold hover:text-white transition">Services</button>
+                    <button onclick="showPage('game')" class="nav-btn text-sm font-semibold hover:text-white transition flex items-center gap-2">
+                        <i class="fas fa-golf-ball text-blue-400"></i> Game
+                    </button>
+                    <button onclick="showPage('nbn')" class="px-5 py-2.5 bg-blue-600/10 hover:bg-blue-600/20 text-blue-400 rounded-full text-sm font-bold border border-blue-500/20 transition-all">
+                        <i class="fas fa-wifi mr-2"></i>NBN Discount
+                    </button>
+                    <button onclick="scrollToElement('contact')" class="nav-btn text-sm font-semibold hover:text-white transition">Contact</button>
+                </div>
+                <button class="md:hidden text-2xl text-slate-400" onclick="toggleMenu()">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <!-- HOME PAGE -->
+        <div id="home-page" class="page-section active">
+            <!-- Hero Section -->
+            <header class="relative pt-40 pb-32 overflow-hidden hero-gradient">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+                    <div class="animate__animated animate__fadeInDown">
+                        <span class="inline-flex items-center py-1.5 px-4 rounded-full bg-blue-500/10 text-blue-400 text-xs font-bold mb-6 border border-blue-500/20 tracking-widest uppercase">
+                           <span class="w-2 h-2 bg-blue-500 rounded-full mr-2 animate-pulse"></span> Your Local Tech Experts
+                        </span>
+                    </div>
+                    <h1 class="text-6xl md:text-8xl font-extrabold mb-8 tracking-tighter text-white leading-[0.9]">
+                        Tech issues <br><span class="text-gradient">solved simply.</span>
+                    </h1>
+                    <p class="text-slate-400 text-lg md:text-xl max-w-2xl mx-auto mb-12 font-medium leading-relaxed">
+                        Precision computer repairs, custom workstation builds, and cutting-edge business solutions delivered with a personal touch.
+                    </p>
+                    <div class="flex flex-col sm:flex-row justify-center gap-5 mb-16">
+                        <button onclick="scrollToElement('services')" class="px-10 py-5 bg-blue-600 hover:bg-blue-500 text-white rounded-2xl font-bold transition-all shadow-xl shadow-blue-600/25 flex items-center justify-center gap-2">
+                            Explore Services <i class="fas fa-arrow-right text-xs"></i>
+                        </button>
+                        <button onclick="showPage('game')" class="px-10 py-5 bg-slate-900 hover:bg-slate-800 text-white rounded-2xl font-bold transition-all border border-slate-800 flex items-center justify-center gap-2">
+                            <i class="fas fa-gamepad text-blue-400"></i> Play AJ Golf
+                        </button>
+                    </div>
+
+                    <!-- Highlighted Pick Up Service -->
+                    <div class="max-w-3xl mx-auto animate__animated animate__fadeInUp">
+                        <div class="glass-card p-8 rounded-[2.5rem] border-blue-500/30 bg-blue-500/5 flex flex-col md:flex-row items-center gap-8 text-left">
+                            <div class="w-16 h-16 bg-blue-500/20 rounded-2xl flex items-center justify-center text-blue-400 shrink-0">
+                                <i class="fas fa-car-side text-3xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-2xl font-bold text-white mb-2 flex items-center gap-3">
+                                    Pick Up & Drop Off 
+                                    <span class="text-[10px] bg-blue-500 text-white px-2 py-0.5 rounded-full uppercase tracking-tighter">New Service</span>
+                                </h3>
+                                <p class="text-slate-400 leading-relaxed">
+                                    Too busy to visit? We've got you covered. We offer a secure, professional concierge service where we pick up your device, repair it in our expert lab, and return it to your door, fully tested and ready to use.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Services Grid -->
+            <section id="services" class="py-32 bg-slate-900/30">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="max-w-2xl mb-20">
+                        <h2 class="text-4xl md:text-5xl font-bold mb-6 text-white tracking-tight">Expert support for every digital need.</h2>
+                        <p class="text-slate-400 text-lg">We don't just fix computers; we optimize your digital lifestyle.</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                        <div class="glass-card p-8 rounded-[2rem]">
+                            <div class="service-icon-wrapper text-blue-500"><i class="fas fa-database text-2xl"></i></div>
+                            <h3 class="text-xl font-bold mb-4 text-white">Data Recovery</h3>
+                            <p class="text-slate-400 text-sm">Recover lost files, precious photos, and critical documents from failed drives.</p>
+                        </div>
+                        <div class="glass-card p-8 rounded-[2rem]">
+                            <div class="service-icon-wrapper text-red-500"><i class="fas fa-shield-virus text-2xl"></i></div>
+                            <h3 class="text-xl font-bold mb-4 text-white">Virus Removal</h3>
+                            <p class="text-slate-400 text-sm">Security hardening and malware extraction.</p>
+                        </div>
+                        <div class="glass-card p-8 rounded-[2rem]">
+                            <div class="service-icon-wrapper text-yellow-500"><i class="fas fa-bolt text-2xl"></i></div>
+                            <h3 class="text-xl font-bold mb-4 text-white">Speed Upgrades</h3>
+                            <p class="text-slate-400 text-sm">SSD and RAM installations for peak performance.</p>
+                        </div>
+                        <div class="glass-card p-8 rounded-[2rem]">
+                            <div class="service-icon-wrapper text-green-500"><i class="fas fa-broom text-2xl"></i></div>
+                            <h3 class="text-xl font-bold mb-4 text-white">Tune & Clean</h3>
+                            <p class="text-slate-400 text-sm">System optimization and physical cleaning.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- NBN PAGE -->
+        <div id="nbn-page" class="page-section pt-40 pb-32 hero-gradient min-h-screen">
+            <div class="max-w-4xl mx-auto px-4 text-center">
+                <button onclick="showPage('home')" class="text-slate-400 mb-12 hover:text-white flex items-center gap-2 mx-auto transition-colors"><i class="fas fa-arrow-left"></i> Back to Home</button>
+                <div class="glass-card p-12 md:p-20 rounded-[4rem]">
+                    <div class="flex justify-center mb-8">
+                        <div class="w-16 h-16 bg-[#00a8b4] rounded-2xl flex items-center justify-center shadow-lg">
+                            <i class="fas fa-wifi text-white text-3xl"></i>
+                        </div>
+                    </div>
+                    <h2 class="text-4xl md:text-5xl font-black mb-4 text-white">Referral Discount</h2>
+                    <p class="text-slate-400 mb-10 text-lg">Save on your next NBN bill with Aussie Broadband.</p>
+                    
+                    <div class="bg-slate-900/80 border border-white/10 p-10 rounded-3xl inline-block mb-12 shadow-2xl">
+                        <span class="text-slate-500 text-xs font-bold uppercase tracking-widest block mb-2">Your Code</span>
+                        <span class="text-5xl md:text-7xl font-black text-white tracking-tighter">2110377</span>
+                    </div>
+                    
+                    <div class="max-w-md mx-auto">
+                        <a href="https://www.aussiebroadband.com.au/" target="_blank" class="block w-full py-5 bg-[#00a8b4] hover:bg-[#008f99] text-white font-black rounded-2xl shadow-xl shadow-[#00a8b4]/20 transition-all transform hover:scale-[1.02] flex items-center justify-center gap-3">
+                            <i class="fas fa-external-link-alt text-sm"></i> Go to Aussie Broadband
+                        </a>
+                        <p class="text-slate-500 mt-6 text-sm">Enter the code during signup to claim your discount.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- GAME PAGE -->
+        <div id="game-page" class="page-section pt-40 pb-32 hero-gradient min-h-screen">
+            <div class="max-w-5xl mx-auto px-4">
+                <div class="flex justify-between items-center mb-12">
+                    <button onclick="showPage('home')" class="text-slate-400 hover:text-white flex items-center gap-2"><i class="fas fa-arrow-left"></i> Home</button>
+                    <h2 class="text-3xl font-black text-white">AJ <span class="text-blue-500">NATURE</span> GOLF</h2>
+                </div>
+
+                <div class="glass-card p-4 rounded-[2.5rem] relative">
+                    <div class="absolute top-8 left-8 z-10 flex gap-4">
+                        <div class="bg-slate-950/80 px-4 py-2 rounded-xl border border-white/10 text-center min-w-[70px]">
+                            <span class="text-[10px] text-slate-500 uppercase block">Hole</span>
+                            <span id="golfHole" class="text-xl font-black text-white">1 / 3</span>
+                        </div>
+                        <div class="bg-slate-950/80 px-4 py-2 rounded-xl border border-white/10 text-center min-w-[70px]">
+                            <span class="text-[10px] text-slate-500 uppercase block">Par</span>
+                            <span id="golfPar" class="text-xl font-black text-blue-400">3</span>
+                        </div>
+                        <div class="bg-slate-950/80 px-4 py-2 rounded-xl border border-white/10 text-center min-w-[70px]">
+                            <span class="text-[10px] text-slate-500 uppercase block">Strokes</span>
+                            <span id="golfStrokes" class="text-xl font-black text-white">0</span>
+                        </div>
+                    </div>
+                    
+                    <div id="gameContainer" class="relative w-full aspect-video md:aspect-[21/9] bg-[#064e3b] rounded-[2rem] overflow-hidden">
+                        <canvas id="golfCanvas"></canvas>
+                        
+                        <!-- Game Overlays -->
+                        <div id="gameOverlay" class="absolute inset-0 bg-slate-950/60 backdrop-blur-sm flex flex-col items-center justify-center text-center p-8 hidden">
+                            <h3 id="overlayTitle" class="text-4xl font-black text-white mb-4 uppercase tracking-tighter">Hole in One!</h3>
+                            <p id="overlaySub" class="text-slate-300 mb-8 font-semibold">Ready for the next challenge?</p>
+                            <button id="nextBtn" onclick="nextHole()" class="px-10 py-4 bg-blue-600 text-white rounded-2xl font-black shadow-xl shadow-blue-600/20 hover:bg-blue-500 transition-all">Next Hole</button>
+                        </div>
+
+                        <!-- Final Scoreboard -->
+                        <div id="scoreboardOverlay" class="absolute inset-0 bg-slate-950/90 backdrop-blur-md flex flex-col items-center justify-center text-center p-8 hidden animate__animated animate__fadeIn">
+                            <div class="overflow-y-auto w-full max-h-full py-10 px-4 flex flex-col items-center">
+                                <div class="w-16 h-16 bg-yellow-500 rounded-full flex items-center justify-center mb-6 shadow-xl shadow-yellow-500/20 shrink-0">
+                                    <i class="fas fa-trophy text-slate-900 text-2xl"></i>
+                                </div>
+                                <h3 class="text-4xl font-black text-white mb-2 uppercase tracking-tighter">Course Complete</h3>
+                                <p class="text-slate-400 mb-8">Great performance out there!</p>
+                                
+                                <div class="grid grid-cols-3 gap-4 mb-6 w-full max-w-md shrink-0">
+                                    <div class="bg-white/5 border border-white/10 p-4 rounded-2xl">
+                                        <span class="text-[10px] uppercase text-slate-500 block mb-1">Hole 1</span>
+                                        <span id="scoreHole1" class="text-xl font-bold text-white">0</span>
+                                    </div>
+                                    <div class="bg-white/5 border border-white/10 p-4 rounded-2xl">
+                                        <span class="text-[10px] uppercase text-slate-500 block mb-1">Hole 2</span>
+                                        <span id="scoreHole2" class="text-xl font-bold text-white">0</span>
+                                    </div>
+                                    <div class="bg-white/5 border border-white/10 p-4 rounded-2xl">
+                                        <span class="text-[10px] uppercase text-slate-500 block mb-1">Hole 3</span>
+                                        <span id="scoreHole3" class="text-xl font-bold text-white">0</span>
+                                    </div>
+                                </div>
+
+                                <div class="bg-blue-600/10 border border-blue-500/20 px-8 py-4 rounded-2xl mb-8 flex items-center gap-6">
+                                    <div>
+                                        <span class="text-[10px] uppercase text-blue-400 font-bold block tracking-widest">Total Strokes</span>
+                                        <span id="totalScore" class="text-4xl font-black text-white">0</span>
+                                    </div>
+                                    <button onclick="resetGolf(true)" class="px-6 py-3 bg-white text-slate-950 rounded-xl font-black hover:bg-blue-50 transition-all text-sm">Play Again</button>
+                                </div>
+
+                                <!-- Contact Form Inserted in Scoreboard -->
+                                <div class="w-full max-w-md bg-slate-900/50 p-6 rounded-[2rem] border border-white/10 text-left">
+                                    <h4 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                                        <i class="fas fa-tools text-blue-500"></i> Need a real tech fix?
+                                    </h4>
+                                    <form onsubmit="handleFormSubmit(event)" class="space-y-4">
+                                        <div class="grid grid-cols-2 gap-4">
+                                            <div>
+                                                <input type="text" id="custNameScore" required placeholder="Name" class="w-full px-4 py-3 rounded-xl text-sm">
+                                            </div>
+                                            <div>
+                                                <input type="tel" id="custPhoneScore" required placeholder="Phone" class="w-full px-4 py-3 rounded-xl text-sm">
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <textarea id="custIssueScore" required rows="2" placeholder="Tell us about your computer issue..." class="w-full px-4 py-3 rounded-xl text-sm"></textarea>
+                                        </div>
+                                        <button type="submit" class="w-full py-4 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl shadow-lg shadow-blue-600/20 transition-all text-sm">
+                                            Send to AJ Computers
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 flex justify-between items-center px-4">
+                        <div class="flex gap-4">
+                            <div class="flex items-center gap-1"><div class="w-3 h-3 bg-yellow-600"></div><span class="text-[10px] text-slate-500">Sand</span></div>
+                            <div class="flex items-center gap-1"><div class="w-3 h-3 bg-blue-400"></div><span class="text-[10px] text-slate-500">Water (OB)</span></div>
+                            <div class="flex items-center gap-1"><div class="w-3 h-3 bg-[#5d4037]"></div><span class="text-[10px] text-slate-500">Bridge</span></div>
+                        </div>
+                        <p class="text-[10px] text-slate-500 italic">Play all 3 holes to see your final score!</p>
+                        <button onclick="resetGolf(true)" class="text-slate-500 text-xs font-bold hover:text-white transition-colors">Reset Course</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Shared Contact Section (Used on Home Page) -->
+        <section id="contact" class="py-32 bg-slate-950">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-20">
+                    <div>
+                        <h2 class="text-5xl font-extrabold mb-8 text-white tracking-tight">Ready to fix your PC?</h2>
+                        <p class="text-slate-400 text-xl mb-12">Fast, reliable service is just a click away.</p>
+                        <div class="space-y-4">
+                            <a href="tel:0434976351" class="flex items-center gap-4 text-white font-bold text-lg hover:text-blue-400 transition-colors"><i class="fas fa-phone text-blue-500"></i> 0434 976 351</a>
+                            <a href="https://facebook.com/ajcomputersoz" target="_blank" class="flex items-center gap-4 text-white font-bold text-lg hover:text-blue-400 transition-colors"><i class="fab fa-facebook text-blue-500"></i> AJ Computers Oz</a>
+                        </div>
+                    </div>
+                    <div class="glass-card p-10 rounded-[3rem]">
+                        <form onsubmit="handleFormSubmit(event)" class="space-y-5">
+                            <div>
+                                <label class="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1 mb-2 block">Full Name</label>
+                                <input type="text" id="custName" required placeholder="John Doe" class="w-full px-6 py-4 rounded-2xl">
+                            </div>
+                            <div>
+                                <label class="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1 mb-2 block">Phone Number</label>
+                                <input type="tel" id="custPhone" required placeholder="0400 000 000" class="w-full px-6 py-4 rounded-2xl">
+                            </div>
+                            <div>
+                                <label class="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1 mb-2 block">Issue Description</label>
+                                <textarea id="custIssue" required rows="4" placeholder="Briefly explain what's wrong..." class="w-full px-6 py-4 rounded-2xl"></textarea>
+                            </div>
+                            
+                            <div class="flex items-center gap-4 p-4 bg-slate-900/50 rounded-2xl border border-white/5">
+                                <input type="checkbox" id="pickupRequest" class="custom-checkbox">
+                                <label for="pickupRequest" class="text-sm font-semibold text-slate-300 cursor-pointer">
+                                    I would like to request <span class="text-blue-400">Pick Up & Drop Off</span>
+                                </label>
+                            </div>
+
+                            <button type="submit" class="w-full py-5 mt-4 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-2xl shadow-xl shadow-blue-600/30 transition-all">
+                                Send Messenger Request
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        function toggleMenu() {
+            const nav = document.querySelector('.hidden.md\\:flex');
+            nav.classList.toggle('hidden');
+            nav.classList.toggle('flex');
+            nav.classList.toggle('flex-col');
+            nav.classList.toggle('absolute');
+            nav.classList.toggle('top-20');
+            nav.classList.toggle('bg-slate-950');
+            nav.classList.toggle('w-full');
+            nav.classList.toggle('p-10');
+        }
+
+        function showPage(pageId) {
+            document.querySelectorAll('.page-section').forEach(page => page.classList.remove('active'));
+            const targetPage = document.getElementById(pageId + '-page');
+            if (targetPage) targetPage.classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            if (pageId === 'game') initGolf();
+        }
+
+        function scrollToElement(id) {
+            if (!document.getElementById('home-page').classList.contains('active')) {
+                showPage('home');
+                setTimeout(() => {
+                    const el = document.getElementById(id);
+                    if (el) el.scrollIntoView({ behavior: 'smooth' });
+                }, 100);
+            } else {
+                const el = document.getElementById(id);
+                if (el) el.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            // Detect which form was used
+            const isScoreboardForm = e.target.querySelector('#custNameScore') !== null;
+            
+            let name, phone, issue, pickup = "NO";
+            
+            if (isScoreboardForm) {
+                name = document.getElementById('custNameScore').value;
+                phone = document.getElementById('custPhoneScore').value;
+                issue = document.getElementById('custIssueScore').value;
+            } else {
+                name = document.getElementById('custName').value;
+                phone = document.getElementById('custPhone').value;
+                issue = document.getElementById('custIssue').value;
+                pickup = document.getElementById('pickupRequest').checked ? "YES" : "NO";
+            }
+            
+            const message = `Name: ${name}%0APhone: ${phone}%0APick Up Requested: ${pickup}%0AIssue: ${issue}`;
+            window.open(`https://m.me/ajcomputersoz?text=${message}`, '_blank');
+        }
+
+        // --- ENHANCED GOLF GAME ---
+        let canvas, ctx;
+        let ball = { x: 100, y: 100, radius: 7, vx: 0, vy: 0, active: false, startX: 100, startY: 100 };
+        let man = { x: 80, y: 100, width: 20, height: 40 };
+        let hole = { x: 0, y: 0, radius: 12 };
+        let hazards = [], staticObjects = [], bridges = [];
+        let isAiming = false, mousePos = { x: 0, y: 0 };
+        let strokes = 0, currentHole = 1, gameLoopReq;
+        let courseScores = [0, 0, 0];
+        const holePars = [3, 4, 5];
+
+        function initGolf() {
+            canvas = document.getElementById('golfCanvas');
+            if (!canvas) return;
+            ctx = canvas.getContext('2d');
+            resizeGolfCanvas();
+            resetGolf(true);
+            canvas.onmousedown = startAim;
+            canvas.onmousemove = updateMouse;
+            window.onmouseup = endAim;
+            
+            canvas.addEventListener('touchstart', (e) => { e.preventDefault(); startAim(); }, { passive: false });
+            canvas.addEventListener('touchmove', (e) => {
+                e.preventDefault();
+                const touch = e.touches[0];
+                const rect = canvas.getBoundingClientRect();
+                mousePos = { x: touch.clientX - rect.left, y: touch.clientY - rect.top };
+            }, { passive: false });
+            canvas.addEventListener('touchend', (e) => { e.preventDefault(); endAim(); }, { passive: false });
+
+            if (gameLoopReq) cancelAnimationFrame(gameLoopReq);
+            gameLoop();
+        }
+
+        function resizeGolfCanvas() {
+            const container = document.getElementById('gameContainer');
+            if (!container) return;
+            canvas.width = container.clientWidth;
+            canvas.height = container.clientHeight;
+        }
+
+        function resetGolf(fullReset = false) {
+            if (fullReset) { 
+                currentHole = 1; 
+                strokes = 0; 
+                courseScores = [0, 0, 0];
+                document.getElementById('scoreboardOverlay').classList.add('hidden');
+            }
+            document.getElementById('golfHole').innerText = `${currentHole} / 3`;
+            document.getElementById('golfPar').innerText = holePars[currentHole-1];
+            document.getElementById('golfStrokes').innerText = strokes;
+            document.getElementById('gameOverlay').classList.add('hidden');
+            
+            ball.startX = 80; ball.startY = canvas.height / 2;
+            ball.x = ball.startX; ball.y = ball.startY;
+            ball.vx = 0; ball.vy = 0; ball.active = false;
+            man.x = ball.x - 25; man.y = ball.y;
+
+            generateHoleLayout(currentHole);
+        }
+
+        function generateHoleLayout(holeNum) {
+            hazards = []; staticObjects = []; bridges = [];
+            if (holeNum === 1) {
+                hole.x = canvas.width - 100;
+                hole.y = canvas.height / 2;
+                staticObjects.push({ type: 'tree', x: canvas.width * 0.3, y: canvas.height * 0.3, radius: 25 });
+                staticObjects.push({ type: 'tree', x: canvas.width * 0.5, y: canvas.height * 0.5, radius: 30 });
+                staticObjects.push({ type: 'tree', x: canvas.width * 0.7, y: canvas.height * 0.8, radius: 25 });
+                hazards.push({ type: 'sand', x: canvas.width * 0.45, y: canvas.height * 0.1, w: 100, h: 120 });
+            } else if (holeNum === 2) {
+                hole.x = canvas.width - 80;
+                hole.y = 80;
+                hazards.push({ type: 'sand', x: 150, y: 0, w: canvas.width - 300, h: canvas.height * 0.35 });
+                hazards.push({ type: 'sand', x: 250, y: canvas.height * 0.65, w: canvas.width - 250, h: canvas.height * 0.35 });
+                staticObjects.push({ type: 'tree', x: 200, y: canvas.height/2, radius: 30 });
+            } else {
+                hole.x = canvas.width - 80;
+                hole.y = canvas.height / 2;
+                const riverX = canvas.width * 0.45;
+                const riverW = canvas.width * 0.15;
+                hazards.push({ type: 'water', x: riverX, y: 0, w: riverW, h: canvas.height });
+                const bridgeH = 60;
+                bridges.push({ x: riverX - 5, y: (canvas.height/2) - (bridgeH/2), w: riverW + 10, h: bridgeH });
+                staticObjects.push({ type: 'tree', x: canvas.width * 0.7, y: canvas.height * 0.2, radius: 25 });
+                staticObjects.push({ type: 'tree', x: canvas.width * 0.7, y: canvas.height * 0.8, radius: 25 });
+                staticObjects.push({ type: 'tree', x: canvas.width * 0.85, y: canvas.height * 0.4, radius: 20 });
+            }
+        }
+
+        function nextHole() {
+            courseScores[currentHole - 1] = strokes;
+            if (currentHole < 3) {
+                strokes = 0;
+                currentHole++;
+                resetGolf();
+            } else {
+                showScoreboard();
+            }
+        }
+
+        function showScoreboard() {
+            document.getElementById('scoreHole1').innerText = courseScores[0];
+            document.getElementById('scoreHole2').innerText = courseScores[1];
+            document.getElementById('scoreHole3').innerText = courseScores[2];
+            const total = courseScores.reduce((a, b) => a + b, 0);
+            document.getElementById('totalScore').innerText = total;
+            document.getElementById('scoreboardOverlay').classList.remove('hidden');
+        }
+
+        function startAim() { if (!ball.active) { isAiming = true; } }
+        function updateMouse(e) { 
+            const rect = canvas.getBoundingClientRect(); 
+            mousePos = { x: e.clientX - rect.left, y: e.clientY - rect.top }; 
+        }
+        function endAim() { 
+            if (!isAiming) return; 
+            isAiming = false; 
+            const dx = (ball.x - mousePos.x) * 0.12; 
+            const dy = (ball.y - mousePos.y) * 0.12; 
+            if (Math.hypot(dx, dy) > 0.4) { 
+                ball.vx = dx; ball.vy = dy; ball.active = true; strokes++; 
+                document.getElementById('golfStrokes').innerText = strokes; 
+            } 
+        }
+
+        function drawTree(obj) {
+            ctx.fillStyle = 'rgba(0,0,0,0.2)';
+            ctx.beginPath();
+            ctx.ellipse(obj.x + 5, obj.y + 15, obj.radius * 0.8, obj.radius * 0.3, 0, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.fillStyle = '#451a03';
+            ctx.fillRect(obj.x - 6, obj.y - 5, 12, 30);
+            const colors = ['#064e3b', '#065f46', '#047857'];
+            colors.forEach((color, i) => {
+                ctx.fillStyle = color;
+                ctx.beginPath();
+                const r = obj.radius - (i * 4);
+                const offset = i * 6;
+                ctx.arc(obj.x, obj.y - 15 - offset, r, 0, Math.PI * 2);
+                ctx.fill();
+            });
+        }
+
+        function update() {
+            if (!ball.active) {
+                man.x += (ball.x - 20 - man.x) * 0.1;
+                man.y += (ball.y - man.y) * 0.1;
+                return;
+            };
+
+            let friction = 0.985;
+            let onBridge = false;
+
+            bridges.forEach(b => {
+                if (ball.x > b.x && ball.x < b.x + b.w && ball.y > b.y && ball.y < b.y + b.h) {
+                    onBridge = true;
+                }
+            });
+
+            hazards.forEach(h => {
+                if (ball.x > h.x && ball.x < h.x + h.w && ball.y > h.y && ball.y < h.y + h.h) {
+                    if (h.type === 'sand') friction = 0.85;
+                    if (h.type === 'water' && !onBridge) {
+                        ball.active = false;
+                        ball.vx = 0; ball.vy = 0;
+                        ball.x = h.x - 20; 
+                        ball.y = canvas.height / 2;
+                    }
+                }
+            });
+
+            ball.x += ball.vx; ball.y += ball.vy; 
+            ball.vx *= friction; ball.vy *= friction;
+
+            staticObjects.forEach(obj => {
+                let d = Math.hypot(ball.x - obj.x, ball.y - obj.y);
+                if(d < ball.radius + obj.radius) {
+                    let angle = Math.atan2(ball.y - obj.y, ball.x - obj.x);
+                    ball.x = obj.x + Math.cos(angle) * (ball.radius + obj.radius);
+                    ball.y = obj.y + Math.sin(angle) * (ball.radius + obj.radius);
+                    const speed = Math.hypot(ball.vx, ball.vy);
+                    ball.vx = Math.cos(angle) * (speed * 0.8 + 1); 
+                    ball.vy = Math.sin(angle) * (speed * 0.8 + 1);
+                }
+            });
+
+            if (ball.x < ball.radius || ball.x > canvas.width - ball.radius) {
+                ball.vx *= -0.7;
+                ball.x = ball.x < ball.radius ? ball.radius : canvas.width - ball.radius;
+            }
+            if (ball.y < ball.radius || ball.y > canvas.height - ball.radius) {
+                ball.vy *= -0.7;
+                ball.y = ball.y < ball.radius ? ball.radius : canvas.height - ball.radius;
+            }
+            
+            if (Math.hypot(ball.x - hole.x, ball.y - hole.y) < hole.radius && Math.hypot(ball.vx, ball.vy) < 2.5) {
+                ball.active = false; 
+                document.getElementById('gameOverlay').classList.remove('hidden');
+                document.getElementById('nextBtn').innerText = currentHole === 3 ? "View Scoreboard" : "Next Hole";
+            }
+            if (Math.hypot(ball.vx, ball.vy) < 0.1) ball.active = false;
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#064e3b';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            hazards.forEach(h => { 
+                if (h.type === 'sand') {
+                    ctx.fillStyle = '#ca8a04'; 
+                    ctx.beginPath(); ctx.roundRect(h.x, h.y, h.w, h.h, 20); ctx.fill(); 
+                } else if (h.type === 'water') {
+                    ctx.fillStyle = '#0ea5e9';
+                    ctx.fillRect(h.x, h.y, h.w, h.h);
+                    ctx.strokeStyle = 'rgba(255,255,255,0.2)';
+                    ctx.lineWidth = 1;
+                    for(let i=0; i<5; i++) {
+                        const rippleY = (Date.now()/50 + i*50) % canvas.height;
+                        ctx.beginPath(); ctx.moveTo(h.x, rippleY); ctx.lineTo(h.x + h.w, rippleY); ctx.stroke();
+                    }
+                }
+            });
+
+            bridges.forEach(b => {
+                ctx.fillStyle = '#5d4037';
+                ctx.fillRect(b.x, b.y, b.w, b.h);
+                ctx.strokeStyle = '#3e2723';
+                ctx.lineWidth = 2;
+                for(let i=5; i<b.w; i+=10) {
+                    ctx.beginPath(); ctx.moveTo(b.x + i, b.y); ctx.lineTo(b.x + i, b.y + b.h); ctx.stroke();
+                }
+                ctx.fillStyle = '#3e2723';
+                ctx.fillRect(b.x, b.y - 4, b.w, 4);
+                ctx.fillRect(b.x, b.y + b.h, b.w, 4);
+            });
+
+            staticObjects.forEach(obj => { if (obj.type === 'tree') drawTree(obj); });
+
+            ctx.fillStyle = '#000'; ctx.beginPath(); ctx.arc(hole.x, hole.y, hole.radius, 0, Math.PI*2); ctx.fill();
+            ctx.fillStyle = '#dc2626'; ctx.beginPath(); ctx.moveTo(hole.x, hole.y - 2); ctx.lineTo(hole.x + 10, hole.y - 12); ctx.lineTo(hole.x, hole.y - 22); ctx.fill();
+            ctx.strokeStyle = '#fff'; ctx.beginPath(); ctx.moveTo(hole.x, hole.y - 2); ctx.lineTo(hole.x, hole.y - 25); ctx.stroke();
+
+            ctx.strokeStyle = '#fff'; ctx.lineWidth = 2;
+            const hY = man.y - 35;
+            ctx.beginPath(); ctx.arc(man.x, hY, 5, 0, Math.PI*2); ctx.stroke();
+            ctx.beginPath(); ctx.moveTo(man.x, hY + 5); ctx.lineTo(man.x, man.y - 10); ctx.stroke();
+            ctx.beginPath(); ctx.moveTo(man.x, man.y - 10); ctx.lineTo(man.x - 5, man.y); ctx.stroke();
+            ctx.beginPath(); ctx.moveTo(man.x, man.y - 10); ctx.lineTo(man.x + 5, man.y); ctx.stroke();
+
+            if (isAiming) { 
+                ctx.strokeStyle = 'rgba(255,255,255,0.4)'; ctx.setLineDash([5, 5]); 
+                ctx.beginPath(); ctx.moveTo(ball.x, ball.y); ctx.lineTo(mousePos.x, mousePos.y); ctx.stroke(); 
+                ctx.setLineDash([]); 
+            }
+
+            ctx.fillStyle = '#fff'; ctx.shadowBlur = 4; ctx.shadowColor = 'rgba(0,0,0,0.5)';
+            ctx.beginPath(); ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI*2); ctx.fill();
+            ctx.shadowBlur = 0;
+        }
+
+        function gameLoop() { update(); draw(); gameLoopReq = requestAnimationFrame(gameLoop); }
+        window.onload = initGolf;
+    </script>
+</body>
+</html>
